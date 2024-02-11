@@ -2,12 +2,12 @@ const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
 
-const url = process.env.MONGODB_URI
+const { MONGODB_URI } = require('../utils/config')
 
-console.log('connecting to', url)
+console.log('connecting to', MONGODB_URI)
 
 mongoose
-  .connect(url)
+  .connect(MONGODB_URI)
   .then((result) => {
     console.log('connected to MongoDB')
   })
@@ -22,6 +22,10 @@ const noteSchema = new mongoose.Schema({
     required: true,
   },
   important: Boolean,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
 })
 
 noteSchema.set('toJSON', {
